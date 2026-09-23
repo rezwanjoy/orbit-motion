@@ -1,0 +1,22 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.vscode/
+.idea/
+
+# Tooling output
+.playwright-mcp/
+.claude/
+node_modules/
+.vercel/
+*.log
+
+# Secrets
+.env
+.env.*
+
+# Raw source media not used by the site (compressed copies live in assets/img)
+public/photos/
+public/videos/ai assistant_motion design.mp4

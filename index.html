@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orbit Motion — Premium Digital Creative Studio</title>
+<meta name="description" content="Orbit Motion is a premium digital creative studio — animated websites, cinematic product video, and advertising, priced for growing brands.">
+<meta property="og:title" content="Orbit Motion — Premium Digital Creative Studio">
+<meta property="og:description" content="High-end animated experiences, priced for growing brands.">
+<meta property="og:image" content="brand/orbit_motion_cover.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="is-loading">
+
+<!-- ============ PRELOADER ============ -->
+<div class="loader" id="loader" aria-hidden="true">
+  <svg class="loader-orbit" viewBox="0 0 200 120">
+    <ellipse class="loader-ring" cx="100" cy="60" rx="86" ry="34" transform="rotate(-18 100 60)"/>
+    <circle class="loader-planet" cx="100" cy="60" r="5"/>
+  </svg>
+  <div class="loader-count"><span id="loaderNum">00</span></div>
+  <div class="loader-curtain loader-curtain--top"></div>
+  <div class="loader-curtain loader-curtain--bottom"></div>
+</div>
+
+<div class="noise" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"><div class="cursor-dot"></div><div class="cursor-ring"><span class="cursor-label"></span></div></div>
+<div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
+
+<header class="site-header">
+  <a class="mark" href="#hero" aria-label="Orbit Motion — home">
+    <span class="mark-ring" aria-hidden="true"></span>
+    <span class="mark-word">ORBIT<span class="mark-word-sub">MOTION</span></span>
+  </a>
+  <a class="header-cta magnetic" href="#contact" data-cursor="Say hi"><span>Start a project</span></a>
+</header>
+
+<nav class="dot-nav" aria-label="Section navigation">
+  <a href="#hero" data-dot="hero"><span></span><em>Home</em></a>
+  <a href="#services" data-dot="services"><span></span><em>Services</em></a>
+  <a href="#work" data-dot="work"><span></span><em>Work</em></a>
+  <a href="#sites" data-dot="sites"><span></span><em>Live sites</em></a>
+  <a href="#process" data-dot="process"><span></span><em>Process</em></a>
+  <a href="#package" data-dot="package"><span></span><em>Package</em></a>
+  <a href="#contact" data-dot="contact"><span></span><em>Contact</em></a>
+</nav>
+
+<main>
+
+  <!-- ============ HERO — fly through the ring ============ -->
+  <section id="hero" class="hero">
+    <div class="hero-stage">
+      <canvas id="hero-canvas"></canvas>
+      <div class="hero-vignette" aria-hidden="true"></div>
+
+      <div class="hero-float" aria-hidden="true">
+        <div class="float-chip neu-glass" data-depth="0.7" style="--x:62%;--y:18%">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
+        </div>
+        <div class="float-chip neu-glass" data-depth="1" style="--x:86%;--y:58%">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-dasharray="2 3"/><path d="M10 8.5l6 3.5-6 3.5v-7Z" fill="currentColor" stroke="none"/></svg>
+        </div>
+        <div class="float-chip neu-glass" data-depth="0.45" style="--x:70%;--y:80%">
+          <svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/><circle cx="12" cy="12" r="2.6"/></svg>
+        </div>
+        <div class="float-card" data-depth="0.3" style="--x:82%;--y:15%">
+          <video src="public/videos/Orbit Motion_motion design.mp4" autoplay muted loop playsinline preload="metadata"></video>
+        </div>
+      </div>
+
+      <div class="hero-content" id="heroContent">
+        <p class="hero-kicker"><span class="live-dot"></span>Premium digital creative studio</p>
+        <h1 class="wordmark" aria-label="Orbit Motion">
+          <span class="wm-line split" data-split>ORBIT</span>
+          <span class="wm-line wm-sub split" data-split>MOTION</span>
+        </h1>
+        <div class="hero-pills">
+          <span>Web</span><span>AI</span><span>Automation</span><span>SaaS</span><span>Content</span><span>Ads</span><span>Motion</span>
+        </div>
+        <div class="hero-actions">
+          <a href="#package" class="btn-primary magnetic" data-cursor="$280"><span>See the package</span></a>
+          <a href="#work" class="btn-ghost magnetic" data-cursor="Play"><span>Watch the work</span></a>
+        </div>
+      </div>
+
+      <div class="scroll-cue" aria-hidden="true"><span>Scroll to enter the orbit</span><i></i></div>
+    </div>
+  </section>
+
+  <!-- ============ STATEMENT — word-by-word fill ============ -->
+  <section id="statement" class="statement">
+    <div class="statement-stage">
+      <div class="statement-media" aria-hidden="true">
+        <figure class="sm sm-1" data-speed="1.4"><img src="assets/img/from_Book_Portfolio_3.jpg" alt=""></figure>
+        <figure class="sm sm-2" data-speed="0.8"><video src="public/videos/Ads from_perfume_portfolio.mp4" muted loop playsinline preload="metadata"></video></figure>
+        <figure class="sm sm-3" data-speed="1.9"><img src="assets/img/from_perfume_portfolio.jpg" alt=""></figure>
+        <figure class="sm sm-4" data-speed="1.1"><img src="assets/img/site-gelato.jpg" alt=""></figure>
+      </div>
+      <p class="statement-text" id="statementText">We make brands <em>move.</em> Websites, films and ads engineered to be impossible to scroll past.</p>
+    </div>
+  </section>
+
+  <!-- ============ SERVICES — orbit system ============ -->
+  <section id="services" class="services">
+    <div class="services-stage">
+      <div class="services-label">
+        <span class="mono">Disciplines</span>
+        <span class="mono services-count"><b id="svcIdx">01</b> / 07</span>
+      </div>
+
+      <div class="orbit-system" id="orbitSystem">
+        <div class="orbit-ring orbit-ring--outer"></div>
+        <div class="orbit-ring orbit-ring--mid"></div>
+        <div class="orbit-rotor" id="orbitRotor">
+          <!-- nodes placed by JS around the ring -->
+          <button class="orbit-node neu" data-i="0" aria-label="Web"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><circle cx="6.4" cy="6.5" r="0.55" fill="currentColor" stroke="none"/><circle cx="8.8" cy="6.5" r="0.55" fill="currentColor" stroke="none"/></svg></button>
+          <button class="orbit-node neu" data-i="1" aria-label="AI"><svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/><circle cx="12" cy="12" r="2.6"/></svg></button>
+          <button class="orbit-node neu" data-i="2" aria-label="Automation"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></button>
+          <button class="orbit-node neu" data-i="3" aria-label="SaaS"><svg viewBox="0 0 24 24"><path d="M12 3 21 8 12 13 3 8 12 3Z"/><path d="M3 13l9 5 9-5"/><path d="M3 17.5l9 5 9-5"/></svg></button>
+          <button class="orbit-node neu" data-i="4" aria-label="Content"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4"/><path d="M9 13h7M9 17h5"/></svg></button>
+          <button class="orbit-node neu" data-i="5" aria-label="Ads"><svg viewBox="0 0 24 24"><path d="M3 10v4h3l6 4V6L6 10H3Z"/><path d="M16 9a4 4 0 010 6"/><path d="M19 6a8 8 0 010 12"/></svg></button>
+          <button class="orbit-node neu" data-i="6" aria-label="Motion design"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-dasharray="2 3"/><path d="M10 8.5l6 3.5-6 3.5v-7Z" fill="currentColor" stroke="none"/></svg></button>
+        </div>
+
+        <div class="orbit-core neu-deep">
+          <div class="core-slides" id="coreSlides">
+            <div class="core-slide"><h3>Web</h3><p>Animated sites built to convert.</p></div>
+            <div class="core-slide"><h3>AI</h3><p>Smart assistants inside your product.</p></div>
+            <div class="core-slide"><h3>Automation</h3><p>Systems that quietly save hours.</p></div>
+            <div class="core-slide"><h3>SaaS</h3><p>Custom software, built to spec.</p></div>
+            <div class="core-slide"><h3>Content</h3><p>Poster-grade visual storytelling.</p></div>
+            <div class="core-slide"><h3>Ads</h3><p>Creative that stops the scroll.</p></div>
+            <div class="core-slide"><h3>Motion</h3><p>Film-grade motion graphics.</p></div>
+          </div>
+          <svg class="core-progress" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="47"/><circle class="core-progress-fill" id="coreProgress" cx="50" cy="50" r="47"/></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WORK — pinned horizontal reel ============ -->
+  <section id="work" class="work">
+    <div class="work-stage">
+      <div class="work-ghost" aria-hidden="true"><span id="workGhost">SELECTED WORK — SELECTED WORK —</span></div>
+      <div class="work-hud">
+        <span class="mono">Selected work</span>
+        <span class="work-hud-bar"><i id="workBar"></i></span>
+        <span class="mono"><b id="workIdx">01</b> / 06</span>
+      </div>
+      <div class="work-track" id="workTrack">
+        <article class="work-card" data-cursor="Play">
+          <div class="work-media-wrap"><video class="work-media" src="public/videos/Orbit Motion_motion design.mp4" muted loop playsinline preload="metadata"></video></div>
+          <div class="work-meta"><span class="tag">Motion design</span><h3>Brand motion reel</h3></div>
+        </article>
+        <article class="work-card work-card--tall" data-cursor="Play">
+          <div class="work-media-wrap"><video class="work-media" src="public/videos/Ads from_perfume_portfolio.mp4" muted loop playsinline preload="metadata"></video></div>
+          <div class="work-meta"><span class="tag">Product ad</span><h3>Fragrance film — cut 1</h3></div>
+        </article>
+        <article class="work-card" data-cursor="View">
+          <div class="work-media-wrap poster-fan">
+            <img src="assets/img/from_Book_Portfolio_3.jpg" alt="Tolkien's Great Tales collector set — book cover creative" loading="lazy">
+            <img src="assets/img/from_Book_Portfolio_1.jpg" alt="Gödel, Escher, Bach — book cover creative" loading="lazy">
+            <img src="assets/img/from_Book_Portfolio_2.jpg" alt="The Third Love — book cover creative" loading="lazy">
+          </div>
+          <div class="work-meta"><span class="tag">Content</span><h3>Editorial book creative</h3></div>
+        </article>
+        <article class="work-card work-card--tall" data-cursor="Play">
+          <div class="work-media-wrap"><video class="work-media" src="public/videos/SunSip_creative Ads.mp4" muted loop playsinline preload="metadata"></video></div>
+          <div class="work-meta"><span class="tag">Creative ad</span><h3>SunSip</h3></div>
+        </article>
+        <article class="work-card" data-cursor="View">
+          <div class="work-media-wrap"><img class="work-media" src="assets/img/from_perfume_portfolio.jpg" alt="Viktor&amp;Rolf Spicebomb Night Vision — six-frame product ad creative" loading="lazy"></div>
+          <div class="work-meta"><span class="tag">Product ad</span><h3>Spicebomb frame set</h3></div>
+        </article>
+        <article class="work-card work-card--tall" data-cursor="Play">
+          <div class="work-media-wrap"><video class="work-media" src="public/videos/Ads from_perfume_portfolio1.mp4" muted loop playsinline preload="metadata"></video></div>
+          <div class="work-meta"><span class="tag">Product ad</span><h3>Fragrance film — cut 2</h3></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LIVE SITES — coverflow ============ -->
+  <section id="sites" class="sites" data-theme="gelato">
+    <div class="sites-wash" aria-hidden="true"></div>
+    <div class="sites-head">
+      <span class="mono"><span class="live-dot"></span>Live on the web</span>
+      <div class="sites-logos" id="sitesLogos">
+        <span class="site-logo site-logo--gelato is-active">CLUB GELATO</span>
+        <span class="site-logo site-logo--bookworm">The Bookworm</span>
+        <span class="site-logo site-logo--usb">U S B</span>
+      </div>
+    </div>
+
+    <div class="coverflow" id="coverflow">
+      <article class="cf-card" data-theme="gelato" data-url="https://club-gelato-concept.vercel.app">
+        <div class="browser">
+          <div class="browser-bar"><i></i><i></i><i></i><span>club-gelato-concept.vercel.app</span></div>
+          <img src="assets/img/site-gelato.jpg" alt="Club Gelato website homepage" draggable="false">
+        </div>
+      </article>
+      <article class="cf-card" data-theme="bookworm" data-url="https://the-bookworm.vercel.app">
+        <div class="browser">
+          <div class="browser-bar"><i></i><i></i><i></i><span>the-bookworm.vercel.app</span></div>
+          <img src="assets/img/site-bookworm.jpg" alt="The Bookworm website homepage" draggable="false">
+        </div>
+      </article>
+      <article class="cf-card" data-theme="usb" data-url="https://fragrance-alpha-tan.vercel.app">
+        <div class="browser">
+          <div class="browser-bar"><i></i><i></i><i></i><span>fragrance-alpha-tan.vercel.app</span></div>
+          <img src="assets/img/site-fragrance.jpg" alt="USB fragrance store website homepage" draggable="false">
+        </div>
+      </article>
+    </div>
+
+    <div class="sites-controls">
+      <button class="cf-arrow neu magnetic" data-dir="-1" aria-label="Previous site"><span>←</span></button>
+      <div class="cf-dots" id="cfDots"><button class="is-active" aria-label="Club Gelato"></button><button aria-label="The Bookworm"></button><button aria-label="USB"></button></div>
+      <a class="btn-primary btn-primary--sm magnetic" id="cfVisit" href="https://club-gelato-concept.vercel.app" target="_blank" rel="noopener" data-cursor="Open"><span>Visit live site ↗</span></a>
+      <button class="cf-arrow neu magnetic" data-dir="1" aria-label="Next site"><span>→</span></button>
+    </div>
+  </section>
+
+  <!-- ============ PROCESS — comet path ============ -->
+  <section id="process" class="process">
+    <div class="process-stage">
+      <h2 class="section-title split-words">Low pressure, by design.</h2>
+      <div class="process-map">
+        <svg class="process-svg" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true">
+          <path class="process-track" id="processPath" d="M40,220 C160,40 260,40 320,150 S480,280 540,150 S720,20 800,110 S920,230 960,90"/>
+          <path class="process-drawn" id="processDrawn" d="M40,220 C160,40 260,40 320,150 S480,280 540,150 S720,20 800,110 S920,230 960,90"/>
+        </svg>
+        <div class="comet" id="comet" aria-hidden="true"></div>
+        <div class="process-nodes" id="processNodes">
+          <div class="p-node" data-at="0.0"><div class="p-icon neu"><svg viewBox="0 0 24 24"><path d="M3 6h18v12H3z"/><path d="M3 7l9 6 9-6"/></svg></div><b>Say hello</b><small>No obligation</small></div>
+          <div class="p-node" data-at="0.27"><div class="p-icon neu"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4V5Z"/></svg></div><b>Quick chat</b><small>No pitch deck</small></div>
+          <div class="p-node" data-at="0.5"><div class="p-icon neu"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M10 8.5l6 3.5-6 3.5v-7Z" fill="currentColor" stroke="none"/></svg></div><b>See a demo</b><small>Real work first</small></div>
+          <div class="p-node" data-at="0.75"><div class="p-icon neu"><svg viewBox="0 0 24 24"><path d="M13 3 4 14h7l-1 7 9-11h-7l1-7Z"/></svg></div><b>We build</b><small>On your terms</small></div>
+          <div class="p-node" data-at="1"><div class="p-icon neu"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/><path d="M9 12l2 2 4-4"/></svg></div><b>Pay after handover</b><small>See it, then pay</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PACKAGE — deck + price ============ -->
+  <section id="package" class="package">
+    <div class="package-glow" aria-hidden="true"></div>
+    <div class="package-inner">
+      <div class="deck-col">
+        <div class="deck" id="deck">
+          <div class="deck-card neu" data-k="web">
+            <div class="deck-media"><img src="assets/img/site-fragrance.jpg" alt="" loading="lazy"></div>
+            <div class="deck-foot"><span class="deck-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg></span><b>Animated website</b><em>01</em></div>
+          </div>
+          <div class="deck-card neu" data-k="ad">
+            <div class="deck-media"><img src="assets/img/from_perfume_portfolio.jpg" alt="" loading="lazy"></div>
+            <div class="deck-foot"><span class="deck-icon"><svg viewBox="0 0 24 24"><path d="M3 10v4h3l6 4V6L6 10H3Z"/><path d="M16 9a4 4 0 010 6"/></svg></span><b>Product ad set</b><em>02</em></div>
+          </div>
+          <div class="deck-card neu" data-k="video">
+            <div class="deck-media"><video src="public/videos/Ads from_perfume_portfolio1.mp4" muted loop playsinline preload="metadata"></video></div>
+            <div class="deck-foot"><span class="deck-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M10 8.5l6 3.5-6 3.5v-7Z" fill="currentColor" stroke="none"/></svg></span><b>Cinematic video</b><em>03</em></div>
+          </div>
+        </div>
+        <p class="deck-hint mono">Tap the deck ↻</p>
+      </div>
+
+      <div class="price-col">
+        <div class="price-card neu" id="priceCard">
+          <div class="price-border" aria-hidden="true"></div>
+          <div class="price-top">
+            <span class="mono">The complete brand experience</span>
+            <span class="pkg-badge" id="pkgBadge"><span class="pkg-badge-shine"></span>60% OFF</span>
+          </div>
+          <div class="price-row">
+            <span class="price-old" id="priceOld">$699<i></i></span>
+            <span class="price-new">$<span id="priceNew">699</span></span>
+          </div>
+          <p class="price-bdt">≈ ৳33,000 BDT <em>· approx., contact for exact local pricing</em></p>
+          <ul class="price-includes">
+            <li><span class="tick"></span>Fully animated website</li>
+            <li><span class="tick"></span>Creative product advertisement</li>
+            <li><span class="tick"></span>Cinematic product video</li>
+          </ul>
+          <p class="price-note">Pay after handover. You see the finished work first.</p>
+          <div class="price-ctas">
+            <a href="https://orbit-motion.vercel.app/" target="_blank" rel="noopener" class="btn-primary magnetic" data-cursor="Demo"><span>See demo</span></a>
+            <a href="mailto:rezwanjoy457@gmail.com?subject=Book%20a%20chat%20-%20Orbit%20Motion" class="btn-ghost magnetic" data-cursor="Email"><span>Book a chat</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT — one line + marquee ============ -->
+  <section id="about" class="about">
+    <p class="about-line split-words">One studio. Every discipline. <em>No agency markup.</em></p>
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>Web</span><i>✦</i><span>AI</span><i>✦</i><span>Automation</span><i>✦</i><span>SaaS</span><i>✦</i><span>Content</span><i>✦</i><span>Ads</span><i>✦</i><span>Motion design</span><i>✦</i>
+        <span>Web</span><i>✦</i><span>AI</span><i>✦</i><span>Automation</span><i>✦</i><span>SaaS</span><i>✦</i><span>Content</span><i>✦</i><span>Ads</span><i>✦</i><span>Motion design</span><i>✦</i>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT — orbiting close ============ -->
+  <section id="contact" class="contact">
+    <div class="contact-orbits" aria-hidden="true">
+      <div class="c-orbit c-orbit--1"><i></i></div>
+      <div class="c-orbit c-orbit--2"><i></i></div>
+      <div class="c-orbit c-orbit--3"><i></i></div>
+      <div class="c-sun"></div>
+    </div>
+    <div class="contact-inner">
+      <h2 class="contact-line split-words">Let's build something worth <em>flexing.</em></h2>
+      <a href="mailto:rezwanjoy457@gmail.com" class="btn-primary btn-primary--lg magnetic" id="contactCta" data-cursor="Email"><span>rezwanjoy457@gmail.com</span></a>
+      <div class="contact-alt">
+        <a href="mailto:rezwanjoy457@gmail.com?subject=Book%20a%20chat%20-%20Orbit%20Motion" class="btn-ghost magnetic"><span>Book a chat</span></a>
+        <a href="https://orbit-motion.vercel.app/" target="_blank" rel="noopener" class="btn-ghost magnetic"><span>See demo</span></a>
+      </div>
+      <div class="socials">
+        <a href="https://www.instagram.com/orbit_motion1/" target="_blank" rel="noopener" class="social neu magnetic" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/></svg></a>
+        <a href="https://www.facebook.com/profile.php?id=61594515595840" target="_blank" rel="noopener" class="social neu magnetic" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M14 8h3V4h-3a4 4 0 00-4 4v2H7v4h3v7h4v-7h3l1-4h-4V8.5c0-.3.2-.5.5-.5Z"/></svg></a>
+      </div>
+    </div>
+    <footer class="site-footer">
+      <span>© 2026 Orbit Motion</span>
+      <span class="mono">Web · AI · Automation · SaaS · Content · Ads · Motion</span>
+    </footer>
+  </section>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/animejs@4.1.0/lib/anime.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
