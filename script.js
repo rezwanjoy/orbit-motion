@@ -222,7 +222,7 @@ const revealWordGroups = Array.from(document.querySelectorAll('.split-words')).m
    straight through the ring into the next section.
    ============================================================ */
 const hero = { p: 0 }; // scroll progress written by ScrollTrigger, read by the render loop
-(function heroScene(){
+function heroScene(){
   const canvas = document.getElementById('hero-canvas');
   if(!canvas || !window.THREE) return;
 
@@ -308,14 +308,14 @@ const hero = { p: 0 }; // scroll progress written by ScrollTrigger, read by the 
     rafId = requestAnimationFrame(tick);
   }
   rafId = requestAnimationFrame(tick);
-})();
+}
 
 /* hero floating chips — one shared rAF lerp loop (not per-event tweens).
    Paused via IntersectionObserver: without this, backdrop-filter + transform
    on these chips kept ticking every frame for the whole page lifetime,
    long after the hero scrolled out of view — a steady background drain
    that showed up as sustained scroll jank, worst on mobile GPUs. */
-(function heroFloat(){
+function heroFloat(){
   if(reduceMotion) return;
   const stage = document.querySelector('.hero-float');
   const items = Array.from(document.querySelectorAll('.hero-float [data-depth]')).map((el, i) => ({ el, d: parseFloat(el.dataset.depth), x: 0, y: 0, ph: i * 1.7, rot: el.classList.contains('float-card') ? 8 : 0 }));
@@ -332,7 +332,14 @@ const hero = { p: 0 }; // scroll progress written by ScrollTrigger, read by the 
       it.el.style.transform = `translate3d(${it.x.toFixed(1)}px,${it.y.toFixed(1)}px,0) rotate(${(it.rot + tx * 6 * it.d).toFixed(2)}deg)`;
     });
   });
-})();
+}
+
+// Yield one tick before the heavy setup (Three.js hero scene + ~10
+// ScrollTrigger.create() calls in initScrollFX) so the browser gets a
+// chance to paint the preloader and start its ring-fill animation first,
+// instead of that setup running in the same synchronous block as the
+// very first frame.
+setTimeout(() => { heroScene(); heroFloat(); initScrollFX(); }, 0);
 
 /* ============================================================
    Preloader → hero intro
@@ -399,8 +406,14 @@ function heroIntro(){
 
 /* ============================================================
    Scroll choreography — created in document order so every pin
-   spacer is measured correctly.
+   spacer is measured correctly. Wrapped in a function and deferred
+   (see the bottom of the preloader block) instead of running inline:
+   this is ~10 ScrollTrigger.create() calls plus the Three.js hero
+   scene, and running all of it synchronously in the same tick as the
+   very first page paint was blocking the preloader's own ring-fill
+   animation from rendering smoothly — the "laggy on first load" feel.
    ============================================================ */
+function initScrollFX(){
 
 // progress bar
 gsap.to('#progressBar', { scaleX: 1, ease: 'none', scrollTrigger: { trigger: document.body, start: 0, end: 'max', scrub: 0.3 } });
@@ -723,5 +736,7 @@ revealWordGroups.forEach(({ el, words }) => {
 
 // contact orbits breathe with scroll
 gsap.fromTo('.contact-orbits', { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, ease: 'none', scrollTrigger: { trigger: '#contact', start: 'top bottom', end: 'top 20%', scrub: true } });
+
+} // end initScrollFX
 
 addEventListener('load', () => ScrollTrigger.refresh());
