@@ -21,7 +21,7 @@ gsap.registerPlugin(ScrollTrigger);
    and Lenis share one clock (no double-driven scroll).
    ============================================================ */
 let lenis = null;
-if(window.Lenis && !reduceMotion){
+if(window.Lenis && !reduceMotion && !isMobile()){
   lenis = new Lenis({
     duration: 0.9,
     easing: (t) => 1 - Math.pow(1 - t, 4),
@@ -132,7 +132,7 @@ const revealWordGroups = Array.from(document.querySelectorAll('.split-words')).m
    anime.js squash on click.
    ============================================================ */
 (function magnetic(){
-  if(reduceMotion) return;
+  if(reduceMotion || !window.matchMedia('(pointer:fine)').matches) return;
   document.querySelectorAll('.magnetic').forEach(el => {
     const inner = el.querySelector(':scope > span');
     const xTo = gsap.quickTo(el, 'x', { duration: 0.5, ease: 'power3.out' });
@@ -177,17 +177,44 @@ const revealWordGroups = Array.from(document.querySelectorAll('.split-words')).m
 })();
 
 /* ============================================================
-   Videos — only play what's on screen (big perf win with 8 clips)
+   Videos — only play what's on screen (big perf win with 8 clips).
+   Debounced + de-duped: a raw isIntersecting toggle firing play()/pause()
+   on every scroll tick was measured re-issuing (and aborting) the same
+   range request over and over during a fast flick through the work reel —
+   real network + decoder churn, the main source of mobile jank here.
+   On mobile we additionally cap it to one decoding video at a time.
    ============================================================ */
 (function videoVisibility(){
-  const vids = document.querySelectorAll('video');
+  const vids = Array.from(document.querySelectorAll('video'));
+  let current = null; // mobile: the single video allowed to play
+  function safePlay(v){
+    if(!v.paused && !v.ended) return;
+    v.muted = true;
+    const p = v.play();
+    if(p) p.catch(() => {});
+  }
+  function safePause(v){ if(!v.paused) v.pause(); }
   const io = new IntersectionObserver(entries => {
     entries.forEach(({ target, isIntersecting }) => {
-      if(isIntersecting){ target.muted = true; const p = target.play(); if(p) p.catch(() => {}); }
-      else target.pause();
+      clearTimeout(target.__vt);
+      target.__vt = setTimeout(() => {
+        if(isIntersecting){
+          if(isMobile()){
+            if(current && current !== target) safePause(current);
+            current = target;
+          }
+          safePlay(target);
+        } else {
+          safePause(target);
+          if(current === target) current = null;
+        }
+      }, isIntersecting ? 120 : 300); // enter needs a beat of dwell time; exit gets a grace period
     });
   }, { rootMargin: '100px' });
-  vids.forEach(v => { v.muted = true; v.removeAttribute('autoplay'); io.observe(v); });
+  vids.forEach(v => {
+    if(isMobile() && v.closest('.hero-float')) return; // CSS hides these on mobile — don't even fetch metadata
+    v.muted = true; v.removeAttribute('autoplay'); io.observe(v);
+  });
 })();
 
 /* ============================================================
@@ -202,8 +229,8 @@ const hero = { p: 0 }; // scroll progress written by ScrollTrigger, read by the 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(42, innerWidth / innerHeight, 0.1, 200);
   camera.position.set(0, 0, 11);
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: !isMobile(), alpha: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, isMobile() ? 1.5 : 2));
   renderer.setSize(innerWidth, innerHeight);
 
   const tiltMatrix = new THREE.Matrix4().makeRotationZ(-0.34).multiply(new THREE.Matrix4().makeRotationX(1.12));
@@ -247,8 +274,8 @@ const hero = { p: 0 }; // scroll progress written by ScrollTrigger, read by the 
     const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
     return new THREE.Points(geo, new THREE.PointsMaterial({ color: 0xffffff, size, sizeAttenuation: true, transparent: true, opacity: 0.9 }));
   }
-  const stars = makeStars(1600, 50, 0.045); scene.add(stars);
-  const starsNear = makeStars(260, 22, 0.08); starsNear.position.z = 14; scene.add(starsNear);
+  const stars = makeStars(isMobile() ? 550 : 1600, 50, 0.045); scene.add(stars);
+  const starsNear = makeStars(isMobile() ? 90 : 260, 22, 0.08); starsNear.position.z = 14; scene.add(starsNear);
 
   let tx = 0, ty = 0, cx = 0, cy = 0, ps = 0;
   if(!reduceMotion) addEventListener('pointermove', e => { tx = e.clientX / innerWidth - 0.5; ty = e.clientY / innerHeight - 0.5; }, { passive: true });
@@ -283,13 +310,21 @@ const hero = { p: 0 }; // scroll progress written by ScrollTrigger, read by the 
   rafId = requestAnimationFrame(tick);
 })();
 
-/* hero floating chips — one shared rAF lerp loop (not per-event tweens) */
+/* hero floating chips — one shared rAF lerp loop (not per-event tweens).
+   Paused via IntersectionObserver: without this, backdrop-filter + transform
+   on these chips kept ticking every frame for the whole page lifetime,
+   long after the hero scrolled out of view — a steady background drain
+   that showed up as sustained scroll jank, worst on mobile GPUs. */
 (function heroFloat(){
   if(reduceMotion) return;
+  const stage = document.querySelector('.hero-float');
   const items = Array.from(document.querySelectorAll('.hero-float [data-depth]')).map((el, i) => ({ el, d: parseFloat(el.dataset.depth), x: 0, y: 0, ph: i * 1.7, rot: el.classList.contains('float-card') ? 8 : 0 }));
-  let tx = 0, ty = 0;
+  if(!stage || !items.length) return;
+  let tx = 0, ty = 0, visible = true;
   addEventListener('pointermove', e => { tx = e.clientX / innerWidth - 0.5; ty = e.clientY / innerHeight - 0.5; }, { passive: true });
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; }, { rootMargin: '50px' }).observe(stage);
   gsap.ticker.add(time => {
+    if(!visible) return;
     items.forEach(it => {
       const bob = Math.sin(time * 0.9 + it.ph) * 8;
       it.x += (-tx * 50 * it.d - it.x) * 0.07;
@@ -459,7 +494,7 @@ gsap.to('#progressBar', { scaleX: 1, ease: 'none', scrollTrigger: { trigger: doc
       const r = c.getBoundingClientRect();
       const d = (r.left + r.width / 2 - vc) / innerWidth; // -1..1ish
       if(Math.abs(d) < bestD){ bestD = Math.abs(d); best = i; }
-      if(reduceMotion) return;
+      if(reduceMotion || isMobile()) return; // skip the per-card 3D tilt recompute on mobile — real cost next to 4 decoding videos in this section
       c.style.transform = `perspective(1400px) rotateY(${clamp(-d * 22, -24, 24).toFixed(2)}deg) scale(${(1 - Math.min(0.14, Math.abs(d) * 0.14)).toFixed(3)})`;
       const m = c.querySelector('.work-media');
       if(m) m.style.transform = `translateX(${(d * -8).toFixed(2)}%) scale(1.14)`;
